@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="pt‑BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Top Receitas do Chef</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300;400;700&family=Great+Vibes&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box‑sizing: border-box;
+    }
+
+    :root {
+      /* paleta premium */
+      --bg: #ecc5e3;
+      --background-image: 
+        linear-gradient(rgba(241, 241, 241, 0.45), rgba(236, 193, 218, 0.45)), 
+        url('fundo.png');
+      --text: #2B2B2B;
+      --muted: #8C8C8C;
+      --gold: #f1ecec;
+      --gold‑dark: #111111;
+      --ink: #3F3F3F;
+      --white: #fff;
+      --black: #000;
+      --border: #EAE6DE;
+      --shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    body {
+      font-family: 'Lato', sans-serif;
+      background-image: var(--background-image);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      min-height: 100vh;
+    }
+
+
+    /* ===== TELA 1 – LANDING ===== */
+    #landing {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 20px;
+      color: #fff;
+      background-color: #333;
+      background-image:
+        linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.45)),
+        url('Por Ana Russo.png'); /* substitua caminho da imagem */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    #landing .brand {
+      position: absolute;
+      top: 26px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      pointer-events: none;
+    }
+
+    .chef-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0f0f0f;
+      box-shadow: var(--shadow);
+    }
+    .chef-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .logo-text {
+      font-family: 'Great Vibes', cursive;
+      font-size: 32px;
+      color: #fff;
+      letter-spacing: 0.5px;
+    }
+
+    .landing-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 30px;
+      line-height: 1.1;
+      margin-bottom: 14px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,.5);
+      letter-spacing: 0.5px;
+    }
+
+    .landing-sub {
+      font-size: 20px;
+      margin-bottom: 36px;
+      text-shadow: 1px 1px 3px rgba(0,0,0,.6);
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: #256a00;
+      border: none;
+      border-radius: 50px;
+      padding: 18px 46px;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(109, 137, 229, 0.4);
+      transition: all .3s ease;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .btn-primary:hover {
+      background: var(--gold-dark);
+      color: #111;
+      transform: translateY(-3px);
+      box-shadow: 0 12px 26px rgba(0,0,0,.45);
+    }
+
+    /* ===== Ajustes para mobile ===== */
+    @media (max-width: 700px) {
+      header {
+        display: flex;
+        flex-direction: column; /* empilha logo e menu */
+        align-items: center;
+        gap: 6px;
+      }
+
+      header img {
+        width: 55px; /* reduz o tamanho da logo */
+        height: auto;
+      }
+
+      .logo-text {
+        text-align: center;
+        font-size: 1.1rem;
+        line-height: 1.2;
+      }
+
+      nav {
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        font-size: 1rem;
+      }
+
+      nav a {
+        display: inline-block;
+        text-align: center;
+      }
+    }
+
+    /* ===== TELA 2 – ÁREA DE MEMBROS ===== */
+    .hidden { display: none !important; }
+
+    .header-fixed {
+      position: fixed;
+      inset: 0 0 auto 0;
+      background: #c7e3c0(255, 255, 255, 0.85);
+      backdrop-filter: blur(8px);
+      color: var(--text);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: var(--shadow);
+      z-index: 1000;
+    }
+
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .header-logo .chef-icon {
+      width: 40px;
+      height: 40px;
+    }
+    .header-logo .logo-text {
+      font-size: 22px;
+      color: var(--text);
+    }
+
+    .main-nav {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      font-size: 14px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .main-nav .nav-link {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--ink);
+      font-weight: 400;
+      padding-bottom: 4px;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    .main-nav .nav-link::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: var(--gold);
+      transition: width 0.3s ease;
+    }
+    .main-nav .nav-link:hover {
+      color: var(--gold-dark);
+    }
+    .main-nav .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .categorias-section {
+      padding: 110px 20px 70px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 42px;
+      text-align: center;
+      margin-bottom: 10px;
+      letter-spacing: 0.5px;
+    }
+    .section-subtitle {
+      text-align: center;
+      font-size: 18px;
+      color: var(--muted);
+      margin-bottom: 44px;
+      font-weight: 300;
+      max-width: 580px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .categorias-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 26px;
+    }
+    @media (min-width: 700px) {
+      .categorias-grid {
+        grid-template-columns: repeat(2,1fr);
+      }
+    }
+    @media (min-width: 1024px) {
+      .categorias-grid {
+        grid-template-columns: repeat(3,1fr);
+      }
+    }
+
+    .categoria-card {
+      background: linear-gradient(135deg,#c7e3c0 0%,hwb(108 80% 4%) 100%);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+      transition: all .3s ease;
+      cursor: pointer;
+      text-align: center;
+      position: relative;
+      animation: fadeUp .4s ease both;
+    }
+    .categoria-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px rgba(0,0,0,.16);
+    }
+
+    .categoria-img {
+      width: 100%;
+      height: 160px;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+    .categoria-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .4s ease;
+    }
+    .categoria-card:hover .categoria-img img {
+      transform: scale(1.03);
+    }
+
+    .categoria-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      margin: 8px 0;
+      letter-spacing: 0.5px;
+    }
+    .categoria-card p {
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .receitas-section {
+      padding: 110px 20px 80px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .btn-voltar {
+      background: var(--text);
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      padding: 12px 24px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-bottom: 26px;
+      transition: .25s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-voltar:hover {
+      background: var(--ink);
+      transform: translateX(-3px);
+    }
+
+    .receitas-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    @media (min-width: 700px) {
+      .receitas-grid {
+        grid-template-columns: repeat(2,1fr);
+      }
+    }
+    @media (min-width: 1024px) {
+      .receitas-grid {
+        grid-template-columns: repeat(3,1fr);
+      }
+    }
+
+    .receita-card {
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: all .3s ease;
+      animation: fadeUp .4s ease both;
+    }
+    .receita-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px rgba(0,0,0,.15);
+    }
+
+    .receita-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      transition: transform .4s ease;
+    }
+    .receita-card:hover .receita-img {
+      transform: scale(1.03);
+    }
+
+    .receita-content {
+      padding: 18px;
+    }
+    .receita-content h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
+    .receita-content p {
+      color: var(--muted);
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+
+    .receita-buttons {
+      display: flex;
+      gap: 10px;
+    }
+    .btn-receita {
+      flex: 1;
+      border: none;
+      border-radius: 50px;
+      padding: 10px 0;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 13px;
+      background: var(--gold);
+      color: #000;
+      box-shadow: 0 4px 8px rgba(200,169,106,0.4);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: all .3s ease;
+    }
+    .btn-receita:hover {
+      background: var(--gold-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 14px rgba(200,169,106,0.5);
+    }
+
+    .footer {
+      background: #ebe7cb;
+      color: #181818;
+      text-align: center;
+      padding: 30px 20px;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .social-links {
+      margin-top: 14px;
+      display: flex;
+      gap: 18px;
+      justify-content: center;
+      font-size: 13px;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+    .social-links a {
+      color: var(--gold);
+      text-decoration: none;
+      transition: .2s;
+    }
+    .social-links a:hover {
+      color: #fff;
+      transform: scale(1.05);
+    }
+
+      /* ===== Modal de vídeo ===== */
+    .video-player{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.85);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:2000;
+      animation:fadeIn .25s ease-out;
+    }
+    .video-container{
+      width:min(92vw,900px);
+      position:relative;
+      border-radius:16px;
+      overflow:hidden;
+      background:#000;
+      box-shadow:0 10px 40px rgba(0,0,0,.45);
+    }
+    .video-container video{
+      width:100%;
+      height:auto;
+      display:block;
+    }
+    .video-container iframe{
+      width:100%;
+      height:min(70vh, 520px);
+      border:0;
+      display:block;
+     }
+
+    .video-close{
+      position:absolute;
+      top:12px;
+      left:12px;
+      background:rgba(0,0,0,.65);
+      color:#fff;
+      border:none;
+      border-radius:999px;
+      padding:6px 14px;
+      font-size:14px;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      gap:6px;
+      z-index:10;
+    }
+    .video-close:hover{
+      background:rgba(0,0,0,.85);
+    }
+
+    /* ===== Seção Chef Apresentação ajustada ===== */
+    .chef-apresentacao {
+      max-width: 1000px;
+      margin: 60px auto 30px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px 20px;
+      background:
+        linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)),
+        url('banner.png'); /* substitua com caminho correto */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .chef-img-container {
+      flex: 1 1 300px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .chef-img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 24px;
+      box-shadow: 0 12px 18px rgba(0,0,0,0.18);
+    }
+
+    .chef-conteudo {
+      flex: 1 1 300px;
+      text-align: center;
+    }
+
+    .chef-conteudo h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      color: var(--black);
+      margin-bottom: 20px;
+    }
+
+    .botao-garantir {
+      display: inline-block;
+      padding: 14px 32px;
+      font-size: 18px;
+      font-weight: bold;
+      text-decoration: none;
+      color: #fff;
+      background-color: #e63946;
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .botao-garantir:hover {
+      background-color: #d62828;
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+      .chef-apresentacao {
+        flex-direction: column;
+        gap: 20px;
+      }
+      .chef-conteudo {
+        text-align: center;
+      }
+    }
+
+  </style>
+</head>
+<body class="lock">
+
+  <!-- ========= TELA 1: LANDING ========= -->
+  <section id="landing">
+    <div class="brand">
+      <div class="logo-text">Ana Russo</div>
+    </div>
+
+    <div>
+      <h1 class="landing-title">Receitas</h1>
+      <p class="landing-sub">Selecionadas</p>
+      <button class="btn-primary" onclick="entrarAreaMembros()">Acessar receitas</button>
+    </div>
+  </section>
+
+  <!-- ========= TELA 2: ÁREA DE MEMBROS ========= -->
+  <div id="app" class="hidden">
+    <header class="header-fixed">
+      <div class="header-logo">
+        <div class="logo-text">Congela Fit</div>
+      </div>
+      <nav class="main-nav">
+        <button class="nav-link" onclick="voltarInicio()">Início</button>
+        <button class="nav-link" onclick="irParaAulas()">Aulas</button>
+      </nav>
+    </header>
+    
+    <main>
+      <section class="categorias-section" id="categorias">
+        <h2 class="section-title">Categorias</h2>
+        <p class="section-subtitle">Seja bem vindo(a).</p>
+
+        <div class="categoria-card" 
+          style="border: 3px solid red; border-radius: 16px;"
+          onclick="window.open('https://drive.google.com/drive/folders/1rHcbynaCwxv3T_xoJ8uw2Hng-N2xacoA', '_blank')">
+            <h3>Acesse seus E-books aqui! </h3>
+            <p>Baixe agora e descubra as melhores receitas de Ana Russo!</p>
+            <span class="receitas-count" style="color: red;">
+              Clique aqui para acessar seu Ebook
+            </span>
+         </div>
+
+        <div class="categorias-grid">
+          <div class="categoria-card" onclick="abrirCategoria('Receitas',1)">
+            <div class="categoria-img"><img src="capa videos.png" alt="Frutas"></div>
+            <h3>Receitas</h3>
+            <p>Video aulas exclusivas.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="receitas-section hidden" id="receitas">
+        <button class="btn-voltar" onclick="voltarCategorias()">← Voltar</button>
+        <h2 class="section-title" id="receitasTitulo"></h2>
+        <div class="receitas-grid" id="receitasGrid"></div>
+      </section>
+    </main>
+
+    <section class="chef-apresentacao">
+      <div class="chef-img-container">
+        <img class="chef-img" src="banner.png" alt="Chef Ana Russo"> <!-- substitua caminho se diferente -->
+      </div>
+
+        <a href="https://somasoundsolutions.mycartpanda.com/checkout/202446809:1" class="botao-garantir" target="_blank" rel="noopener">
+          ✅ Garantir Agora
+        </a>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>© 2025 Daniel Hayashi – Todos os direitos reservados.</p>
+      <div class="social-links">
+        <a href="#">Instagram</a>
+        <a href="#">YouTube</a>
+        <a href="#">Facebook</a>
+        <a href="#">Pinterest</a>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ========= SCRIPTS ========= -->
+  <script>
+    /* ======= Navegação Landing / App ======= */
+    function entrarAreaMembros(){
+      document.body.classList.remove('lock');
+      document.getElementById('landing').classList.add('hidden');
+      document.getElementById('app').classList.remove('hidden');
+      window.scrollTo({top:0,behavior:'instant'});
+    }
+
+    function voltarInicio(){
+      document.getElementById('receitas').classList.add('hidden');
+      document.getElementById('categorias').classList.remove('hidden');
+      document.getElementById('app').classList.add('hidden');
+      document.getElementById('landing').classList.remove('hidden');
+      document.body.classList.add('lock');
+      window.scrollTo({top:0,behavior:'instant'});
+    }
+
+    /* ======= Banco de dados das receitas ======= */
+    const receitasPorCategoria = {
+      1: [
+        { nome:"3 OPÇÕES", descricao:"", imagem:"FOTOS/Captura de tela 2026-01-15 184002.png", video:"https://drive.google.com/file/d/1MGoRMTXcriDIPQ9vuP7ADYOX95h3AZTh/view?usp=drive_link" },
+        { nome:"MAIONESE VERDE SEM OLÉO", descricao:"", imagem:"FOTOS/Captura de tela 2026-01-15 184654.png", video:"https://drive.google.com/file/d/11SjP8ZdnxOBQ-NmqVmtCuCHpt2B1BIjU/view?usp=drive_link" },
+        { nome:"PÃO DE QUEIJO FACIL", descricao:"", imagem:"FOTOS/Captura de tela 2026-01-15 184848.png", video:"https://drive.google.com/file/d/1gjUYeyxnlu2uomGzf4UNBcHsdOF6gU-7/view?usp=drive_link" },
+        { nome:"DELICIA LOW CARB", descricao:"", imagem:"FOTOS/Captura de tela 2026-01-15 184924.png", video:"https://drive.google.com/file/d/1keLk0WDIhM9PL76J9tV5uZg-06ejWbiG/view?usp=drive_link" },
+        { nome:"PANQUECA DE CHOCOLATE", descricao:"", imagem:"FOTOS/Captura de tela 2026-01-15 185105.png", video:"https://drive.google.com/file/d/1rplgwaHHNImvwqsKOva4l_Z0XKX5jwl_/view?usp=drive_link" },
+        { nome:"FRANGO AO MOLHO DE QUEIJO", descricao:"", imagem:"FOTOS/frango queijo.png", video:"https://drive.google.com/file/d/1_NIHGSnbJ1oyRYt9m1m_aOqDCc7qTjuS/view?usp=drive_link"},
+        { nome:"ESFIRRA", descricao:"", imagem:"FOTOS/Captura de tela 2026-01-15 185237.png", video:"https://drive.google.com/file/d/1N4lqIK0yGgQOSFdwLOymC1ns4YfXohAO/view?usp=sharing" },
+        { nome:"HAMBURGUER SAUDAVEL", descricao:"", imagem:"FOTOS/Captura de tela 2026-01-15 185333.png", video:"https://drive.google.com/file/d/1MCWwcppGoT1vKXMh5By4o8q58wBs7aMa/view?usp=sharing" },
+        { nome:"EMPADA LOW CARB", descricao:"", imagem:"FOTOS/Captura de tela 2026-01-15 185501.png", video:"https://drive.google.com/file/d/10fWrEsYkNFKoJBgdSoVpYyGIF0yxnHfX/view?usp=drive_link" },
+        { nome:"PESTICO DOCE", descricao:"", imagem:"FOTOS/Captura de tela 2026-01-15 185633.png", video:"https://drive.google.com/file/d/1TL38yCBVt9Sqg7poTWrNEOowosmIMrkG/view?usp=sharing" },
+        { nome:"Overnight Chocolate", descricao:"", imagem:"FOTOS/Overnight Chocolate.png", video:"https://drive.google.com/file/d/1tZMq7KH4jDwIXB6uosABu1ylAfZVUbKS/view?usp=sharing" },
+        { nome:"POLENTA SAUDAVEL", descricao:"", imagem:"FOTOS/Captura de tela 2026-01-15 190752.png", video:"https://drive.google.com/file/d/1ALWfa0tg-cAFE22UoLUx1ceHERoE2b5a/view?usp=sharing" },
+        { nome:"FRANGO EMPANADO SEM OLEO", descricao:"", imagem:"FOTOS/Captura de tela 2026-01-15 190825.png", video:"https://drive.google.com/file/d/1ME8I5a68mi0Mt3v22oauD_wOSw38SQyy/view?usp=sharing" },
+        { nome:"OVOS CROCRANTES", descricao:"", imagem:"FOTOS/Captura de tela 2026-01-15 190941.png", video:"https://drive.google.com/file/d/1Q6yqPq-dd3rtnBcZzRH3JLlA56gyDHh8/view?usp=sharing" },
+        { nome:"MAMÃO PROTEICO", descricao:"", imagem:"FOTOS/Captura de tela 2026-01-15 191033.png", video:"https://drive.google.com/file/d/1Ta1xEYNMzFbIxKY2iIX_VVMGn0WQPIS-/view?usp=sharing" },
+        { nome:"FRALDINHA COM PURE DE ABOBORA", descricao:"", imagem:"FOTOS/Captura de tela 2026-01-15 191145.png", video:"https://drive.google.com/file/d/1fAv95l1H7vypV4D8WfybalIiuMnYnIWP/view?usp=drive_link"},
+        { nome:"ESCONDIDINHO DE AIR FRYER", descricao:"", imagem:"FOTOS/Captura de tela 2026-01-15 191218.png", video:"https://drive.google.com/file/d/1l9NyDvMEJCwK6TQjM-g4NhrWTkK5lNLr/view?usp=sharing" },
+        { nome:"DOCE DE CHOCOLATE LOW CARB", descricao:"", imagem:"FOTOS/Captura de tela 2026-01-15 191312.png", video:"https://drive.google.com/file/d/1ZhGhtGA69a7n2M5dsgGmVUlgFXpm4gF5/view?usp=sharing" },
+        { nome:"BOMBOM DE TRAVESSA", descricao:"", imagem:"FOTOS/Captura de tela 2026-01-15 191342.png", video:"https://drive.google.com/file/d/1xFitoDaOO4Bm7katr8wELXD9YPAmYjZe/view?usp=sharing" },
+        { nome:"BOLO DE CENOURA FIT ", descricao:"", imagem:"FOTOS/Captura de tela 2026-01-15 191520.png", video:"https://drive.google.com/file/d/1znfohnOZwlBeSEcIYrunkyNRBce-jdW4/view?usp=drive_link" },
+        { nome:"BARRINHA PROTEICA", descricao:"", imagem:"FOTOS/Captura de tela 2026-01-15 191537.png", video:"https://drive.google.com/file/d/1KLjJXXClWg_140sZNxjRmJFGq7KgOG9p/view?usp=sharing" },
+        { nome:"BOLO DE CHOCOLATE COM BANANA", descricao:"", imagem:"FOTOS/Captura de tela 2026-01-15 191609.png", video:"https://drive.google.com/file/d/1DI14kuah6kh2dUGwM81LoFqvrb0SWHm1/view?usp=sharing" },
+        { nome:"BRIGADEIRO SEM AÇÚCAR", descricao:"", imagem:"FOTOS/Captura de tela 2026-01-15 191743.png", video:"https://drive.google.com/file/d/1hGdTXmEeIBmg0Px9xLtLf3ZdgMezvNi3/view?usp=sharing" },
+        { nome:"CERREAL DE MINI PANQUECAS", descricao:"", imagem:"FOTOS/Captura de tela 2026-01-15 191819.png", video:"https://drive.google.com/file/d/1TkiKrlQ2JkR9QWu_xjxzjZX71KldL6dF/view?usp=sharing" },
+        { nome:"CUPCAKE DE AMENDOIM", descricao:"", imagem:"FOTOS/Captura de tela 2026-01-15 191854.png", video:"https://drive.google.com/file/d/1qyHyHpGlDB4FsLTaYs-svqkPOEU7IFYt/view?usp=sharing" },
+        { nome:"DOCE DE CANECA", descricao:"", imagem:"FOTOS/Captura de tela 2026-01-15 192042.png", video:"https://drive.google.com/file/d/1A_rjnLe3QOXgdx3KcO-97p8vUfF79250/view?usp=sharing"},
+        { nome:"ESCONDIDINHO DE PALMITO", descricao:"", imagem:"FOTOS/Captura de tela 2026-01-15 192200.png", video:"https://drive.google.com/file/d/1UrMBjEBxIj-sr_Pz3ahF0O6-JYHfCQY6/view?usp=drive_link" },
+        { nome:"IOGURTE NATURAL CASEIRO", descricao:"", imagem:"FOTOS/Captura de tela 2026-01-15 192211.png", video:"https://drive.google.com/file/d/1c2_houWo1D_xj2DJaMdf3EXolN-9SRTZ/view?usp=drive_link" },
+        { nome:"MASSA DE PANQUECA ", descricao:"", imagem:"FOTOS/Captura de tela 2026-01-15 193139.png", video:"https://drive.google.com/file/d/1ZkoJLRMUXdSl13OoeuyhIkTtpBZHKUPk/view?usp=drive_link" },
+        { nome:"MOUSSE DE COCO", descricao:"", imagem:"FOTOS/Captura de tela 2026-01-15 193150.png", video:"https://drive.google.com/file/d/1XmCYwyWiKhc2T4J3wq3MfhBQwrENfCIF/view?usp=sharing"},
+        { nome:"OMELETE CROCANTE", descricao:"", imagem:"FOTOS/Captura de tela 2026-01-15 193230.png", video:"https://drive.google.com/file/d/1qCJDarJwSPTMeDpN3aOElg_FGsQuhnKy/view?usp=sharing" },
+        { nome:"PANQUECA QUEIJO CROCANTE", descricao:"", imagem:"FOTOS/Captura de tela 2026-01-15 193330.png", video:"https://drive.google.com/file/d/1c7gaJesosWw_Kda18q0KE64k79RPh9z7/view?usp=sharing" },
+        { nome:"PANQUECA DE CUSCUZ", descricao:"", imagem:"FOTOS/Captura de tela 2026-01-15 193453.png", video:"https://drive.google.com/file/d/1A5JZm-Dg9J1JqjGR56x49uB4XDVhdNoB/view?usp=sharing" },
+        { nome:"PANQUECA GOURMET", descricao:"", imagem:"FOTOS/Captura de tela 2026-01-15 193618.png", video:"https://drive.google.com/file/d/1nG9aLW9EjVmK1TGYhDyH030fBMUrjm_1/view?usp=drive_link" }
+    ]
+    };
+
+    /* ======= Renderização de receitas ======= */
+    function abrirCategoria(titulo, index) {
+      const receitasSection = document.getElementById('receitas');
+      const categoriasSection = document.getElementById('categorias');
+      const receitasTitulo = document.getElementById('receitasTitulo');
+      const receitasGrid = document.getElementById('receitasGrid');
+
+      receitasTitulo.textContent = titulo;
+      receitasGrid.innerHTML = '';
+
+      const lista = receitasPorCategoria[index] || [];
+      lista.forEach(rec => {
+        const card = document.createElement('div');
+        card.className = 'receita-card';
+        card.innerHTML = `
+          <img class="receita-img" src="${rec.imagem}" alt="${rec.nome}">
+          <div class="receita-content">
+            <h4>${rec.nome}</h4>
+            <p>${rec.descricao}</p>
+            <div class="receita-buttons">
+              <button class="btn-receita btn-video" onclick="abrirVideo('${rec.video}')">Assistir vídeo</button>
+            </div>
+          </div>
+        `;
+        receitasGrid.appendChild(card);
+      });
+
+      categoriasSection.classList.add('hidden');
+      receitasSection.classList.remove('hidden');
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+
+    function voltarCategorias(){
+      document.getElementById('receitas').classList.add('hidden');
+      document.getElementById('categorias').classList.remove('hidden');
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+
+    /* ======= Player de vídeo (modal) ======= */
+    function abrirVideo(src){
+      if (!src) return;
+
+      const wrap = document.createElement('div');
+      wrap.className = 'video-player';
+
+      const driveMatch = src.match(/https?:\/\/drive\.google\.com\/file\/d\/([^/]+)/);
+
+      if (driveMatch) {
+        const id = driveMatch[1];
+        const embedSrc = `https://drive.google.com/file/d/${id}/preview`;
+
+        wrap.innerHTML = `
+          <div class="video-container">
+            <button class="video-close" onclick="fecharVideo()">← Voltar</button>
+            <iframe src="${embedSrc}" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          </div>
+        `;
+      } else {
+        wrap.innerHTML = `
+          <div class="video-container">
+            <button class="video-close" onclick="fecharVideo()">← Voltar</button>
+            <video src="${src}" controls autoplay playsinline>Your browser does not support HTML5 video.</video>
+          </div>
+        `;
+      }
+
+      document.body.appendChild(wrap);
+    }
+
+    function fecharVideo(){
+      const modal = document.querySelector('.video-player');
+      if (modal) {
+        const video = modal.querySelector('video');
+        if(video){
+          video.pause();
+          video.currentTime = 0;
+        }
+        modal.remove();
+      }
+    }
+
+    /* ======= Visualizar eBook (modal) ======= */
+    function baixarEbook(src){
+      if(!src) return;
+      const wrap = document.createElement('div');
+      wrap.className = 'ebook-viewer';
+      wrap.innerHTML = `
+        <div class="ebook-viewer-container">
+          <button class="ebook-viewer-close" onclick="fecharEbookViewer()">← Voltar</button>
+          <img src="${src}" alt="eBook" class="ebook-image">
+        </div>
+      `;
+      document.body.appendChild(wrap);
+    }
+
+    function fecharEbookViewer(){
+      const modal = document.querySelector('.ebook-viewer');
+      if(modal){
+        modal.remove();
+      }
+    }
+
+    /* ======= Funções nav + bloqueios ======= */
+    const releaseSchedule = {
+      5: new Date('2025‑11‑16T18:00:00')
+    };
+    let agora = new Date();
+
+    window.abrirCategoria = abrirCategoria;
+    window.voltarCategorias = voltarCategorias;
+    window.irParaAulas = function(){
+      document.getElementById('landing').classList.add('hidden');
+      document.getElementById('app').classList.remove('hidden');
+      document.body.classList.remove('lock');
+      voltarCategorias();
+    };
+  </script>
+</body>
+</html>

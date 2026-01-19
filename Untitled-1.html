@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YoLab - Área de Membros</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg:#f5f4f1; --text:#222; --muted:#777; --gold:#fff5c2; --dark:#1b1b1b; --white:#fff;
+      --shadow:0 4px 12px rgba(0,0,0,0.1);
+    }
+    body { font-family:'Lato',sans-serif; background:var(--bg); color:var(--text); line-height:1.6; overflow-x:hidden; }
+    .hidden{ display:none!important; }
+
+    /* Banner */
+    #banner { width:100%; height:420px; background:url('banner.png') center/cover no-repeat; }
+
+    /* Header */
+    header { position:fixed; top:0; left:0; right:0; background:rgba(255,255,255,0.9); backdrop-filter:blur(8px);
+      display:flex; align-items:center; justify-content:space-between; padding:14px 22px; box-shadow:var(--shadow); z-index:1000; }
+    .logo { display:flex; align-items:center; gap:10px; }
+    .logo img { width:45px; height:45px; border-radius:50%; }
+    .logo-text { font-family:'Playfair Display',serif; font-size:22px; color:var(--dark); }
+
+    /* Categorias */
+    .categorias-section { padding:140px 20px 80px; max-width:1200px; margin:0 auto; }
+    .section-title { font-family:'Playfair Display',serif; font-size:40px; text-align:center; margin-bottom:14px; }
+    .section-subtitle { text-align:center; color:var(--muted); margin-bottom:44px; }
+    .categorias-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:26px; }
+
+    .categoria-card { background:linear-gradient(135deg,#fff,#eaeaea); border-radius:18px; box-shadow:var(--shadow);
+      padding:18px; text-align:center; transition:all .3s ease; cursor:pointer; position:relative; }
+    .categoria-card:hover { transform:translateY(-4px); }
+    .categoria-card.locked { opacity:.8; cursor:default; }
+    .categoria-img { width:100%; height:160px; border-radius:14px; overflow:hidden; margin-bottom:12px; }
+    .categoria-img img { width:100%; height:100%; object-fit:cover; }
+    .categoria-card h3 { font-family:'Playfair Display',serif; font-size:22px; margin:8px 0; }
+    .categoria-card p { color:var(--muted); font-size:14px; margin-bottom:6px; }
+    .categoria-lock { font-size:12px; color:var(--muted); display:flex; justify-content:center; align-items:center; gap:6px; }
+
+    /* Receitas */
+    .receitas-section { padding:120px 20px 80px; max-width:1200px; margin:0 auto; }
+    .btn-voltar { background:var(--dark); color:#fff; border:none; border-radius:24px; padding:10px 22px; cursor:pointer; margin-bottom:26px; }
+    .receitas-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:24px; }
+    .receita-card { background:#fff; border-radius:16px; box-shadow:var(--shadow); overflow:hidden; transition:all .3s ease; }
+    .receita-card:hover { transform:translateY(-4px); }
+    .receita-img { width:100%; height:200px; object-fit:cover; }
+    .receita-content { padding:18px; }
+    .receita-content h4 { font-family:'Playfair Display',serif; font-size:20px; margin-bottom:8px; }
+    .receita-content p { color:var(--muted); font-size:14px; margin-bottom:16px; }
+    .btn-receita { width:100%; border:none; border-radius:24px; padding:10px 0; background:var(--gold); font-weight:700; cursor:pointer; transition:.3s; }
+    .btn-receita:hover { background:#f9e988; }
+
+    footer { background:var(--dark); color:#fff; text-align:center; padding:30px 20px; font-size:13px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="logo.png" alt="Logo YoLab">
+      <span class="logo-text">YoLab</span>
+    </div>
+  </header>
+
+  <section id="banner"></section>
+
+  <main>
+    <section class="categorias-section" id="categorias">
+      <h2 class="section-title">Categorias</h2>
+      <p class="section-subtitle">Explore o mundo do iogurte artesanal.</p>
+
+      <div class="categorias-grid">
+        <div class="categoria-card" onclick="abrirCategoria('Com Frutas', 1)">
+          <div class="categoria-img"><img src="video air fryer/morango.jpg" alt="Frutas"></div>
+          <h3>Com Frutas</h3>
+          <p>Iogurtes com pedaços e caldas naturais.</p>
+        </div>
+
+        <div class="categoria-card" onclick="abrirCategoria('Probióticos', 2)">
+          <div class="categoria-img"><img src="video air fryer/iogurte-probiotico.jpg" alt="Probióticos"></div>
+          <h3>Probióticos</h3>
+          <p>Fermentos e técnicas de cultivo saudável.</p>
+          <div class="categoria-lock"><span>🔒 Liberada dia 13/11 às 18:00</span></div>
+        </div>
+
+        <div class="categoria-card" onclick="abrirCategoria('Grego', 3)">
+          <div class="categoria-img"><img src="video air fryer/iogurte-grego.jpg" alt="Grego"></div>
+          <h3>Grego</h3>
+          <p>Cremoso, intenso e irresistível.</p>
+          <div class="categoria-lock"><span>🔒 Liberada dia 14/11 às 18:00</span></div>
+        </div>
+
+        <div class="categoria-card" onclick="abrirCategoria('Vegano', 4)">
+          <div class="categoria-img"><img src="video air fryer/iogurte-vegano.jpg" alt="Vegano"></div>
+          <h3>Vegano</h3>
+          <p>Alternativas com leites vegetais.</p>
+          <div class="categoria-lock"><span>🔒 Liberada dia 15/11 às 18:00</span></div>
+        </div>
+
+        <div class="categoria-card" onclick="abrirCategoria('Infantil', 5)">
+          <div class="categoria-img"><img src="video air fryer/iogurte-infantil.jpg" alt="Infantil"></div>
+          <h3>Infantil</h3>
+          <p>Receitas suaves e nutritivas para crianças.</p>
+          <div class="categoria-lock"><span>🔒 Liberada dia 16/11 às 18:00</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="receitas-section hidden" id="receitas">
+      <button class="btn-voltar" onclick="voltarCategorias()">← Voltar</button>
+      <h2 class="section-title" id="receitasTitulo"></h2>
+      <div class="receitas-grid" id="receitasGrid"></div>
+    </section>
+  </main>
+
+  <footer>
+    © 2025 YoLab – Todos os direitos reservados.
+  </footer>
+
+  <script>
+    const receitasPorCategoria = {
+      1: [
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" }
+      ],
+      2: [
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" }
+      ],
+      3: [
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" }
+      ],
+      4: [
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"",},
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" }
+      ],
+      5: [
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" },
+        { nome:"", descricao:"", imagem:"", video:"" }
+      ]
+    };
+
+    const releaseSchedule = {
+      2: new Date('2025-11-13T18:00:00'),
+      3: new Date('2025-11-14T18:00:00'),
+      4: new Date('2025-11-15T18:00:00'),
+      5: new Date('2025-11-16T18:00:00')
+    };
+
+    function abrirCategoria(titulo, index){
+      const agora = new Date();
+      const unlock = releaseSchedule[index];
+      if(unlock && agora < unlock){
+        alert(`Essa categoria será liberada em ${unlock.toLocaleDateString('pt-BR')} às ${unlock.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}.`);
+        return;
+      }
+
+      document.getElementById('categorias').classList.add('hidden');
+      document.getElementById('receitas').classList.remove('hidden');
+      document.getElementById('receitasTitulo').textContent = titulo;
+      const grid = document.getElementById('receitasGrid');
+      grid.innerHTML = '';
+
+      receitasPorCategoria[index].forEach(rec => {
+        const card = document.createElement('div');
+        card.className = 'receita-card';
+        card.innerHTML = `
+          <img class='receita-img' src="${rec.imagem}" alt="${rec.nome}">
+          <div class='receita-content'>
+            <h4>${rec.nome}</h4>
+            <p>${rec.descricao}</p>
+            <button class='btn-receita' onclick="abrirVideo('${rec.video}')">Assistir Vídeo</button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function voltarCategorias(){
+      document.getElementById('receitas').classList.add('hidden');
+      document.getElementById('categorias').classList.remove('hidden');
+    }
+
+    function abrirVideo(src){ if(!src) return alert('Vídeo não disponível.'); window.open(src,'_blank'); }
+  </script>
+</body>
+</html>
+    /* ======= Player de vídeo (modal com seta Voltar) ======= */
+function abrirVideo(src){
+  if (!src) return;
+
+  const wrap = document.createElement('div');
+  wrap.className = 'video-player';
+
+  // Detecta se é link do Google Drive
+  const driveMatch = src.match(/https?:\/\/drive\.google\.com\/file\/d\/([^/]+)/);
+
+  if (driveMatch) {
+    // Usa o player de preview do Drive
+    const id = driveMatch[1];
+    const embedSrc = `https://drive.google.com/file/d/${id}/preview`;
+
+    wrap.innerHTML = `
+      <div class="video-container">
+        <button class="video-close" onclick="fecharVideo()">← Voltar</button>
+        <iframe
+          src="${embedSrc}"
+          allow="autoplay; encrypted-media"
+          allowfullscreen
+        ></iframe>
+      </div>
+    `;
+  } else {
+    // Continua usando vídeo HTML5 normal para arquivos locais .mp4
+    wrap.innerHTML = `
+      <div class="video-container">
+        <button class="video-close" onclick="fecharVideo()">← Voltar</button>
+        <video src="${src}" controls autoplay playsinline>
+          Seu navegador não suporta vídeo HTML5.
+        </video>
+      </div>
+    `;
+  }
+
+  document.body.appendChild(wrap);
+}
+
+
+
+    function fecharVideo(){
+      const modal = document.querySelector('.video-player');
+      if(modal){
+        const video = modal.querySelector('video');
+        if(video){
+          video.pause();
+          video.currentTime = 0;
+        }
+        modal.remove();
+      }
+    }
